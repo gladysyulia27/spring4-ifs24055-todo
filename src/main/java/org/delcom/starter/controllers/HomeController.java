@@ -11,24 +11,24 @@ import java.util.Map;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
-    public String hello() {
-        return "Hay Abdullah, selamat datang di pengembangan aplikasi dengan Spring Boot!";
-    }
+@GetMapping("/")
+public String hello() {
+    return "Hay Abdullah, selamat datang di pengembangan aplikasi dengan Spring Boot!";
+}
 
-    @GetMapping("/hello/{name}")
-    public String sayHello(@PathVariable String name) {
-        return "Hello, " + name + "!";
-    }
+@GetMapping("/hello/{name}")
+public String sayHello(@PathVariable String name) {
+    return "Hello, " + name + "!";
+}
 
     // Method 1: Informasi NIM
     @GetMapping("/informasiNim/{nim}")
-    public String informasiNim(@PathVariable String nim) {
+    public Map<String, String> informasiNim(@PathVariable String nim) {
         Map<String, String> response = new HashMap<>();
-                
+        
         if (nim == null || nim.length() < 6) {
             response.put("error", "NIM harus minimal 6 karakter");
-            return response.toString();
+            return response;
         }
 
         try {
@@ -44,12 +44,12 @@ public class HomeController {
             response.put("error", "Format NIM tidak valid");
         }
 
-        return response.toString();
+        return response;
     }
 
     // Method 2: Perolehan Nilai
     @GetMapping("/perolehanNilai")
-    public String perolehanNilai(@RequestParam String strBase64) {
+    public Map<String, Object> perolehanNilai(@RequestParam String strBase64) {
         Map<String, Object> response = new HashMap<>();
         
         try {
@@ -80,12 +80,13 @@ public class HomeController {
         } catch (Exception e) {
             response.put("error", "Format Base64 tidak valid");
         }
-            return response.toString();
+        
+        return response;
     }
 
     // Method 3: Perbedaan L dan Kebalikannya
     @GetMapping("/perbedaanL")
-    public String perbedaanL(@RequestParam String strBase64) {
+    public Map<String, Object> perbedaanL(@RequestParam String strBase64) {
         Map<String, Object> response = new HashMap<>();
         
         try {
@@ -113,12 +114,12 @@ public class HomeController {
             response.put("error", "Format Base64 tidak valid");
         }
         
-        return response.toString();
+        return response;
     }
 
     // Method 4: Paling Ter
     @GetMapping("/palingTer")
-    public String palingTer(@RequestParam String strBase64) {
+    public Map<String, Object> palingTer(@RequestParam String strBase64) {
         Map<String, Object> response = new HashMap<>();
         
         try {
@@ -158,7 +159,7 @@ public class HomeController {
             response.put("error", "Format Base64 tidak valid");
         }
         
-        return response.toString();
+        return response;
     }
 
     // Helper method dari kode awal
