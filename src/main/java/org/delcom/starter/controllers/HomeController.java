@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class HomeController {
@@ -21,50 +19,9 @@ public class HomeController {
         return "Hello, " + name + "!";
     }
 
-
-    // 3️⃣ Perbedaan L dan Kebalikannya
-    @GetMapping("/perbedaanL")
-    public String perbedaanL(@RequestParam String strBase64) {
-        byte[] decoded = Base64.getDecoder().decode(strBase64);
-        String text = new String(decoded);
-
-        StringBuilder reversed = new StringBuilder(text).reverse();
-        StringBuilder diff = new StringBuilder();
-
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) != reversed.charAt(i)) {
-                diff.append(text.charAt(i));
-            }
-        }
-
-        return String.format(
-            "Teks Asli: %s<br>Kebalikannya: %s<br>Perbedaannya: %s",
-            text, reversed, diff
-        );
-    }
-
-    
-    // 4️⃣ Paling Ter
-    @GetMapping("/palingTer")
-    public String palingTer(@RequestParam String strBase64) {
-        byte[] decoded = Base64.getDecoder().decode(strBase64);
-        String data = new String(decoded);
-
-        // Pisahkan berdasarkan spasi, lalu cari kata terpanjang dan terpendek
-        String[] kata = data.split("\\s+");
-        String terpendek = kata[0];
-        String terpanjang = kata[0];
-
-        for (String k : kata) {
-            if (k.length() < terpendek.length()) terpendek = k;
-            if (k.length() > terpanjang.length()) terpanjang = k;
-        }
-
-        return String.format(
-            "Kalimat: %s<br>Paling Pendek: %s<br>Paling Panjang: %s",
-            data, terpendek, terpanjang
-        );
-    }
+    // ============================
+    // 4.1 Migrasi Kode Praktikum 1
+    // ============================
 
     // 1️⃣ Informasi NIM
     @GetMapping("/informasiNim/{nim}")
@@ -78,7 +35,7 @@ public class HomeController {
             nim, programStudi, angkatan, urutan
         );
     }
-    // Helper method dari kode awal
+
     private String getProgramStudi(String prefix) {
         switch (prefix) {
             case "11S": return "Sarjana Informatika";
@@ -102,4 +59,46 @@ public class HomeController {
         return "Perolehan Nilai: " + nilai;
     }
 
+    // 3️⃣ Perbedaan L dan Kebalikannya
+    @GetMapping("/perbedaanL")
+    public String perbedaanL(@RequestParam String strBase64) {
+        byte[] decoded = Base64.getDecoder().decode(strBase64);
+        String text = new String(decoded);
+
+        StringBuilder reversed = new StringBuilder(text).reverse();
+        StringBuilder diff = new StringBuilder();
+
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) != reversed.charAt(i)) {
+                diff.append(text.charAt(i));
+            }
+        }
+
+        return String.format(
+            "Teks Asli: %s<br>Kebalikannya: %s<br>Perbedaannya: %s",
+            text, reversed, diff
+        );
+    }
+
+    // 4️⃣ Paling Ter
+    @GetMapping("/palingTer")
+    public String palingTer(@RequestParam String strBase64) {
+        byte[] decoded = Base64.getDecoder().decode(strBase64);
+        String data = new String(decoded);
+
+        // Pisahkan berdasarkan spasi, lalu cari kata terpanjang dan terpendek
+        String[] kata = data.split("\\s+");
+        String terpendek = kata[0];
+        String terpanjang = kata[0];
+
+        for (String k : kata) {
+            if (k.length() < terpendek.length()) terpendek = k;
+            if (k.length() > terpanjang.length()) terpanjang = k;
+        }
+
+        return String.format(
+            "Kalimat: %s<br>Paling Pendek: %s<br>Paling Panjang: %s",
+            data, terpendek, terpanjang
+        );
+    }
 }

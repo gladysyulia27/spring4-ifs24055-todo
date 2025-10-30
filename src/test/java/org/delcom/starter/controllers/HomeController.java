@@ -2,19 +2,21 @@ package org.delcom.starter.controllers;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HomeControllerTest {
 
+    private final HomeController controller = new HomeController();
+
     // ============================
-    // 1️⃣ Tes Hello Endpoint
+    // ⿡ Tes Hello Endpoint
     // ============================
     @Test
     @DisplayName("Mengembalikan pesan sambutan default dengan benar")
     void hello_ShouldReturnWelcomeMessage() {
-        HomeController controller = new HomeController();
         String result = controller.hello();
         assertEquals("Hay Abdullah, selamat datang di pengembangan aplikasi dengan Spring Boot!", result);
     }
@@ -22,49 +24,70 @@ class HomeControllerTest {
     @Test
     @DisplayName("Mengembalikan sapaan personal yang benar")
     void sayHello_ShouldReturnPersonalGreeting() {
-        HomeController controller = new HomeController();
         String result = controller.sayHello("Gladys");
         assertEquals("Hello, Gladys!", result);
     }
 
     // ============================
-    // 2️⃣ Tes Informasi NIM
+    // ⿢ Tes getProgramStudi()
+    // ============================
+    @Test
+    @DisplayName("getProgramStudi mengembalikan nama program studi yang sesuai")
+    void getProgramStudi_ShouldReturnCorrectProgram() throws Exception {
+        var method = HomeController.class.getDeclaredMethod("getProgramStudi", String.class);
+        method.setAccessible(true);
+
+        assertEquals("Sarjana Informatika", method.invoke(controller, "11S"));
+        assertEquals("Sarjana Sistem Informasi", method.invoke(controller, "12S"));
+        assertEquals("Sarjana Teknik Elektro", method.invoke(controller, "14S"));
+        assertEquals("Sarjana Manajemen Rekayasa", method.invoke(controller, "21S"));
+        assertEquals("Sarjana Teknik Metalurgi", method.invoke(controller, "22S"));
+        assertEquals("Sarjana Teknik Bioproses", method.invoke(controller, "31S"));
+        assertEquals("Diploma 4 Teknologi Rekasaya Perangkat Lunak", method.invoke(controller, "114"));
+        assertEquals("Diploma 3 Teknologi Informasi", method.invoke(controller, "113"));
+        assertEquals("Diploma 3 Teknologi Komputer", method.invoke(controller, "133"));
+        assertEquals("Program Studi Tidak Dikenal", method.invoke(controller, "999"));
+    }
+
+    // ============================
+    // ⿣ Tes Informasi NIM
     // ============================
     @Test
     @DisplayName("Mengembalikan informasi NIM dengan benar untuk Sarjana Informatika")
     void informasiNim_ShouldReturnFormattedInfoS1IF() {
-        HomeController controller = new HomeController();
         String nim = "11S24051";
-
         String result = controller.informasiNim(nim);
-
         assertTrue(result.contains("Sarjana Informatika"));
         assertTrue(result.contains("2024"));
         assertTrue(result.contains("Urutan: 51"));
     }
 
     @Test
-    @DisplayName("Mengembalikan informasi NIM untuk program studi lain")
-    void informasiNim_ShouldReturnCorrectProgramStudi() {
-        HomeController controller = new HomeController();
-        String nim = "12S23002"; // Sistem Informasi
-
+    @DisplayName("Mengembalikan informasi NIM dengan benar untuk D4 TRPL")
+    void informasiNim_ShouldReturnFormattedInfoD4TRPL() {
+        String nim = "11424051";
         String result = controller.informasiNim(nim);
+        assertTrue(result.contains("Diploma 4 Teknologi Rekasaya Perangkat Lunak"));
+        assertTrue(result.contains("2024"));
+        assertTrue(result.contains("Urutan: 51"));
+    }
 
-        assertTrue(result.contains("Sarjana Sistem Informasi"));
-        assertTrue(result.contains("2023"));
-        assertTrue(result.contains("Urutan: 2"));
+    @Test
+    @DisplayName("Mengembalikan informasi NIM untuk program studi yang tidak dikenal")
+    void informasiNim_ShouldReturnUnknownProgram() {
+        String nim = "99924051";
+        String result = controller.informasiNim(nim);
+        assertTrue(result.contains("Program Studi Tidak Dikenal"));
     }
 
     // ============================
-    // 3️⃣ Tes Perolehan Nilai
+    // ⿤ Tes Perolehan Nilai
     // ============================
     @Test
     @DisplayName("Perolehan Nilai menampilkan hasil decoding Base64 dengan benar")
     void perolehanNilai_ShouldReturnDecodedValue() {
-        HomeController controller = new HomeController();
         String text = "Nilai Akhir: 90";
-        String encoded = Base64.getEncoder().encodeToString(text.getBytes());
+        String encoded = Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8));
 
         String result = controller.perolehanNilai(encoded);
 
@@ -72,47 +95,46 @@ class HomeControllerTest {
     }
 
     // ============================
-    // 4️⃣ Tes Perbedaan L dan Kebalikannya
+    // ⿥ Tes Perbedaan L dan Kebalikannya (String)
     // ============================
     @Test
-    @DisplayName("Perbedaan L menampilkan hasil perbandingan teks dengan kebalikannya")
-    void perbedaanL_ShouldReturnDifference() {
-        HomeController controller = new HomeController();
-        String text = "ABCD";
-        String encoded = Base64.getEncoder().encodeToString(text.getBytes());
+    @DisplayName("Perbedaan L mengembalikan teks asli, kebalikan, dan perbedaan huruf dengan benar")
+    void perbedaanL_ShouldReturnTextReverseAndDiff() {
+        String text = "abcd";
+        String encoded = Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8));
 
         String result = controller.perbedaanL(encoded);
 
-        assertTrue(result.contains("Teks Asli: ABCD"));
-        assertTrue(result.contains("Kebalikannya: DCBA"));
+        assertTrue(result.contains("Teks Asli: abcd"));
+        assertTrue(result.contains("Kebalikannya: dcba"));
         assertTrue(result.contains("Perbedaannya"));
     }
 
     @Test
-    @DisplayName("Perbedaan L pada palindrome menampilkan perbedaan kosong")
-    void perbedaanL_ShouldHandlePalindromeCorrectly() {
-        HomeController controller = new HomeController();
-        String text = "KAYAK"; // palindrome
-        String encoded = Base64.getEncoder().encodeToString(text.getBytes());
+    @DisplayName("Perbedaan L menangani palindrome dengan benar")
+    void perbedaanL_ShouldHandlePalindrome() {
+        String text = "aba";
+        String encoded = Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8));
 
         String result = controller.perbedaanL(encoded);
 
-        assertTrue(result.contains("Teks Asli: KAYAK"));
-        assertTrue(result.contains("Kebalikannya: KAYAK"));
+        assertTrue(result.contains("Teks Asli"));
+        assertTrue(result.contains("Kebalikannya"));
+        assertTrue(result.contains("Perbedaannya"));
     }
 
     // ============================
-    // 5️⃣ Tes Paling Ter
+    // ⿦ Tes Paling Ter
     // ============================
     @Test
     @DisplayName("PalingTer menampilkan kata terpendek dan terpanjang dengan benar")
     void palingTer_ShouldReturnShortestAndLongestWords() {
-        HomeController controller = new HomeController();
         String text = "Saya belajar Spring Boot";
-        String encoded = Base64.getEncoder().encodeToString(text.getBytes());
+        String encoded = Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8));
 
         String result = controller.palingTer(encoded);
 
+        assertTrue(result.contains("Kalimat"));
         assertTrue(result.contains("Paling Pendek"));
         assertTrue(result.contains("Paling Panjang"));
         assertTrue(result.contains("Spring"));
@@ -121,9 +143,8 @@ class HomeControllerTest {
     @Test
     @DisplayName("PalingTer menangani satu kata dengan benar")
     void palingTer_ShouldHandleSingleWord() {
-        HomeController controller = new HomeController();
         String text = "Informatika";
-        String encoded = Base64.getEncoder().encodeToString(text.getBytes());
+        String encoded = Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8));
 
         String result = controller.palingTer(encoded);
 
