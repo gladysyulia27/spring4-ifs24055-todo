@@ -21,6 +21,7 @@ public class HomeController {
         return "Hello, " + name + "!";
     }
 
+
     // 3️⃣ Perbedaan L dan Kebalikannya
     @GetMapping("/perbedaanL")
     public String perbedaanL(@RequestParam String strBase64) {
@@ -42,6 +43,7 @@ public class HomeController {
         );
     }
 
+    
     // 4️⃣ Paling Ter
     @GetMapping("/palingTer")
     public String palingTer(@RequestParam String strBase64) {
