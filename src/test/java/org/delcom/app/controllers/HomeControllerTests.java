@@ -20,11 +20,7 @@ class HomeControllerUnitTest {
         String result = controller.hello();
 
         // Assert
-<<<<<<< HEAD:src/test/java/org/delcom/app/controllers/HomeControllerTests.java
         assertEquals("Hay, selamat datang di Spring Boot!", result);
-=======
-        assertEquals("Hay, selamat datang di aplikasi dengan Spring Boot!", result);
->>>>>>> e8888fea016292c883e4f91a54c881d5c36bc4ef:src/test/java/org/delcom/starter/controllers/HomeControllerTest.java
     }
 
     // Test untuk metode sayHello()

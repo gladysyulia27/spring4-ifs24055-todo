@@ -17,11 +17,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String hello() {
-<<<<<<< HEAD:src/main/java/org/delcom/app/controllers/HomeController.java
         return "Hay, selamat datang di Spring Boot!";
-=======
-        return "Hay, selamat datang di aplikasi dengan Spring Boot!";
->>>>>>> e8888fea016292c883e4f91a54c881d5c36bc4ef:src/main/java/org/delcom/starter/controllers/HomeController.java
     }
 
     @GetMapping("/hello/{name}")
