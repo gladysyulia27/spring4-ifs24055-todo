@@ -2,14 +2,20 @@
 
 ## Logs
 
+<<<<<<< HEAD
 ### 04-11-2025
 
 - Memperbarui kebutuhan paket
+=======
+- Melakukan inisialisasi proyek
+- Menambahkan method `sayHello()` pada HomeController
+  = Menambahkan pengujian untuk method `sayHello()`
+- BLABLA
+>>>>>>> e8888fea016292c883e4f91a54c881d5c36bc4ef
 
 ### 29-10-2025
 
 - Melakukan inisialisasi proyek
-
 
 ## Syntax
 
@@ -38,6 +44,7 @@ pre-command: `mvn clean install`
 
 command: `./mvnw test jacoco:report`
 
+<<<<<<< HEAD
 command-check: `./mvnw clean test jacoco:check`
 
 ## Purpose
@@ -45,3 +52,6 @@ command-check: `./mvnw clean test jacoco:check`
 Proyek ini dibuat untuk tujuan **Pendidikan**.
 
 
+=======
+command-check: `./mvnw clean test jacoco:check`
+>>>>>>> e8888fea016292c883e4f91a54c881d5c36bc4ef

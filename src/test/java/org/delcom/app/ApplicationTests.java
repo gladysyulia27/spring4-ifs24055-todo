@@ -1,6 +1,11 @@
 package org.delcom.app;
 
 import org.junit.jupiter.api.Test;
+<<<<<<< HEAD:src/test/java/org/delcom/app/ApplicationTests.java
+=======
+import org.junit.jupiter.api.Timeout;
+
+>>>>>>> e8888fea016292c883e4f91a54c881d5c36bc4ef:src/test/java/org/delcom/starter/ApplicationTests.java
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -8,9 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ApplicationTest {
-
+	
 	@Test
+<<<<<<< HEAD:src/test/java/org/delcom/app/ApplicationTests.java
 	void mainMethod_ShouldRunSpringApplication() throws Exception {
+=======
+	@Timeout(10)
+	void mainMethod_ShouldRunSpringApplication() {
+>>>>>>> e8888fea016292c883e4f91a54c881d5c36bc4ef:src/test/java/org/delcom/starter/ApplicationTests.java
 		// Mock SpringApplication.run untuk test main method
 		try (var mockedSpring = mockStatic(SpringApplication.class)) {
 			ConfigurableApplicationContext mockContext = mock(ConfigurableApplicationContext.class);
